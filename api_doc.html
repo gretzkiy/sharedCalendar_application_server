@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Документация к API</title>
+</head>
+<body>
+  <ol>
+    <li>
+      <code><b>POST</b> /signup?login=kek&password=kek&name=kek&surname=kek&patronymic=kek</code>
+      - регистрация пользователя <br>
+      Возвращаемые значения:
+      <ul>
+        <li><code>status 409
+        'Not signed up. Login already exists.'</code></li>
+        <li><code>status 201
+        'Signed up.'</code></li>
+        <li><code>status 500
+        'Not signed up. Internal error.'</code></li>
+      </ul>
+    </li>
+    <li>
+      <code><b>GET</b> /signin?login=kek&password=kek</code>
+      - вход пользователя <br>
+      Возвращаемые значения:
+      <ul>
+        <li><code>status 202
+        'Signed in.'</code></li>
+        <li><code>status 401
+        'Not signed in. Invalid password.'</code></li>
+        <li><code>status 401
+        'Not signed in. No such user.'</code></li>
+      </ul>
+    </li>
+    <li>
+      <code><b>GET</b> /user_groups?login=myLogin</code>
+      - группы пользователя <br>
+      Возвращаемые значения:
+      <ul>
+        <li><code>status 200
+        json: {"amount":2,"groups":[{"id":"1","name":"keek"},{"id":"2","name":"test"}]}</code></li>
+        <li><code>status 400
+        'No such user.'</code></li>
+      </ul>
+    </li>
+    <li>
+      <code><b>GET</b> /find_users?key=m</code>
+      - поиск пользователей по префиксу без учета регистра <br>
+      Возвращаемые значения:
+      <ul>
+        <li><code>status 200
+        json: {"amount":2,"users":["myLogin","mark_zuckerberg"]}</code></li>
+      </ul>
+    </li>
+    <li>
+      <code><b>GET</b> /users_in_group?group_id=1</code>
+      - пользователи в группе <br>
+      Возвращаемые значения:
+      <ul>
+        <li><code>status 200
+        json: {"amount":2,"users":["admin","kek"]}</code></li>
+      </ul>
+    </li>
+    <li>
+      <code><b>GET</b> /find_group?group_id=1</code>
+      - имя группы по id <br>
+      Возвращаемые значения:
+      <ul>
+        <li><code>status 200
+        group_name</code></li>
+        <li><code>status 400
+        'No such group.'</code></li>
+      </ul>
+    </li>
+    <li>
+      <code><b>POST</b> /new_group?group_name=testGroup&group_admin=kek</code>
+      - создание новой группы. group_admin - создатель<br>
+      Возвращаемые значения:
+      <ul>
+        <li><code>status 200
+        group_id</code></li>
+        <li>
+          <code>status 500
+          'Group was not created.'</code>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <code><b>POST</b> /add_users_to_group?members[]=kek&members[]=admin&group_id=1</code>
+      - добавление списка пользователей вгруппу<br>
+      Возвращаемые значения:
+      <ul>
+        <li><code>status 200
+        'Users were added.'</code></li>
+        <li>
+          <code>status 500
+          'Users were not added.'</code>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <code><b>POST</b> /new_fav?to=userTo&from=userFrom</code>
+      - новая заявка на добавление в избранное.<br>
+      Возвращаемые значения:
+      <ul>
+        <li><code>status 405
+        'Already waiting for confirmation.'</code></li>
+        <li>
+          <code>status 200
+          'Fav was added.'</code>
+        </li>
+        <li>
+          <code>status 500
+          'Fav was not added.'</code>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <code><b>GET</b> /unconfirmed_favs?login=kek</code>
+      - Список неподтвержденных входящих заявок пользователя<br>
+      Возвращаемые значения:
+      <ul>
+        <li><code>status 200
+        JSON: {"amount":2,"users":["admin","kek"]}</code></li>
+      </ul>
+    </li>
+    <li>
+      <code><b>POST</b> /confirm_fav?to=userTo&from=userFrom</code>
+      - подтверждение заявки на добавление в избранные<br>
+      Возвращаемые значения:
+      <ul>
+        <li><code>status 405
+        'No such request.'</code></li>
+        <li><code>status 200
+        'Fav confirmed.'</code></li>
+        <li><code>status 500
+        'Fav was not confirmed.'</code></li>
+      </ul>
+    </li>
+    <li>
+      <code><b>GET</b> /favs?login=user</code>
+      - список подтвержденных избранных<br>
+      Возвращаемые значения:
+      <ul>
+        <li><code>status 200
+        JSON: {"amount":2,"favs":["admin","kek"]}</code></li>
+      </ul>
+    </li>
+  </ol>
+</body>
+</html>
